@@ -111,6 +111,7 @@ CREATE TABLE `task` (
   `createTime` datetime NOT NULL,
   `lastRuntime` datetime DEFAULT NULL,
   `state` char(1) NOT NULL,
+  `cron` varchar(255) NOT NULL,
   `runIp` varchar(32) DEFAULT NULL,
   `province` varchar(64) DEFAULT NULL,
   `city` varchar(64) DEFAULT NULL,
