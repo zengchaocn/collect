@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    ctxPath = /*[[@{/}]]*/ '';
+    /*]]>*/
+    console.info(ctxPath);
+</script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>任务列表</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <style type="text/css">
+        #main{
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+
+<div id="main">
+    <div id="search">
+        <form id="queryForm" class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">任务名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">创建时间：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="start" id="start" class="layui-input" autocomplete="off">
+                    </div>
+                    <div class="layui-inline">
+                        <div class="layui-input-inline">
+                            <input type="text" name="end" id="end" class="layui-input" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <input type="button" class="layui-btn" lay-submit lay-filter="query" value="查询" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+<script th:src="@{/jquery/jquery-2.1.1.min.js}"></script>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    var layer, form, laydate;
+    layui.use(['layer', 'form', 'laydate'], function () {
+        layer = layui.layer,
+            form = layui.form,
+            laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#start',
+            type: 'datetime'
+        });
+        laydate.render({
+            elem: '#end',
+            type: 'datetime'
+        });
+        form.on('submit(query)', function(data){
+            console.log(data.elem);
+            console.log(data.form);
+            console.log(data.field);
+            layer.msg($("#queryForm").serialize());
+            return false;
+        });
+    });
+</script>
+</html>

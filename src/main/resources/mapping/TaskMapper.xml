@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.data.collect.dao.TaskMapper" >
+  <resultMap id="BaseResultMap" type="cn.data.collect.model.Task" >
+    <id column="taskId" property="taskid" jdbcType="INTEGER" />
+    <result column="taskName" property="taskname" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="lastRuntime" property="lastruntime" jdbcType="TIMESTAMP" />
+    <result column="state" property="state" jdbcType="CHAR" />
+    <result column="runIp" property="runip" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    taskId, taskName, description, createTime, lastRuntime, state, runIp, province, city, 
+    district
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.data.collect.model.TaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from task
+    where taskId = #{taskid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from task
+    where taskId = #{taskid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.data.collect.model.Task" >
+    insert into task (taskId, taskName, description, 
+      createTime, lastRuntime, state, 
+      runIp, province, city, 
+      district)
+    values (#{taskid,jdbcType=INTEGER}, #{taskname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{lastruntime,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR}, 
+      #{runip,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{district,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.data.collect.model.Task" >
+    insert into task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskid != null" >
+        taskId,
+      </if>
+      <if test="taskname != null" >
+        taskName,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="lastruntime != null" >
+        lastRuntime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="runip != null" >
+        runIp,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskid != null" >
+        #{taskid,jdbcType=INTEGER},
+      </if>
+      <if test="taskname != null" >
+        #{taskname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastruntime != null" >
+        #{lastruntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="runip != null" >
+        #{runip,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.data.collect.model.Task" >
+    update task
+    <set >
+      <if test="taskname != null" >
+        taskName = #{taskname,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastruntime != null" >
+        lastRuntime = #{lastruntime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=CHAR},
+      </if>
+      <if test="runip != null" >
+        runIp = #{runip,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where taskId = #{taskid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.data.collect.model.Task" >
+    update task
+    set taskName = #{taskname,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      lastRuntime = #{lastruntime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=CHAR},
+      runIp = #{runip,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR}
+    where taskId = #{taskid,jdbcType=INTEGER}
+  </update>
+</mapper>
