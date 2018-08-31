@@ -49,8 +49,8 @@ CREATE TABLE `shop` (
   `is_new` double(255,0) DEFAULT NULL COMMENT '新店',
   `is_premium` double DEFAULT NULL COMMENT '保险',
   `is_invoice` double(255,0) DEFAULT NULL COMMENT '发票',
-  `latitude` double DEFAULT NULL COMMENT '纬度',
-  `longitude` double DEFAULT NULL COMMENT '经度',
+  `lat` double(255,6) DEFAULT NULL COMMENT '纬度',
+  `lng` double(255,6) DEFAULT NULL COMMENT '经度',
   `flavors` varchar(255) DEFAULT NULL COMMENT '特色',
   `recommend_reasons` varchar(255) DEFAULT NULL COMMENT '推荐理由',
   `float_delivery_fee` double DEFAULT NULL COMMENT '配送费',
@@ -84,8 +84,8 @@ CREATE TABLE `shop_history` (
   `is_new` double(255,0) DEFAULT NULL COMMENT '新店',
   `is_premium` double DEFAULT NULL COMMENT '保险',
   `is_invoice` double(255,0) DEFAULT NULL COMMENT '发票',
-  `latitude` double DEFAULT NULL COMMENT '纬度',
-  `longitude` double DEFAULT NULL COMMENT '经度',
+  `lat` double(255,6) DEFAULT NULL COMMENT '纬度',
+  `lng` double(255,6) DEFAULT NULL COMMENT '经度',
   `flavors` varchar(255) DEFAULT NULL COMMENT '特色',
   `recommend_reasons` varchar(255) DEFAULT NULL COMMENT '推荐理由',
   `float_delivery_fee` double DEFAULT NULL COMMENT '配送费',
@@ -116,6 +116,8 @@ CREATE TABLE `task` (
   `province` varchar(64) DEFAULT NULL,
   `city` varchar(64) DEFAULT NULL,
   `district` varchar(64) DEFAULT NULL,
+  `lat` double(255, 6) NULL DEFAULT NULL COMMENT '纬度',
+  `lng` double(255, 6) NULL DEFAULT NULL COMMENT '经度',
   PRIMARY KEY (`taskId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

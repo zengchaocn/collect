@@ -425,6 +425,76 @@ public class TaskExample {
             return (Criteria) this;
         }
 
+        public Criteria andCronIsNull() {
+            addCriterion("cron is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronIsNotNull() {
+            addCriterion("cron is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronEqualTo(String value) {
+            addCriterion("cron =", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronNotEqualTo(String value) {
+            addCriterion("cron <>", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronGreaterThan(String value) {
+            addCriterion("cron >", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronGreaterThanOrEqualTo(String value) {
+            addCriterion("cron >=", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronLessThan(String value) {
+            addCriterion("cron <", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronLessThanOrEqualTo(String value) {
+            addCriterion("cron <=", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronLike(String value) {
+            addCriterion("cron like", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronNotLike(String value) {
+            addCriterion("cron not like", value, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronIn(List<String> values) {
+            addCriterion("cron in", values, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronNotIn(List<String> values) {
+            addCriterion("cron not in", values, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronBetween(String value1, String value2) {
+            addCriterion("cron between", value1, value2, "cron");
+            return (Criteria) this;
+        }
+
+        public Criteria andCronNotBetween(String value1, String value2) {
+            addCriterion("cron not between", value1, value2, "cron");
+            return (Criteria) this;
+        }
+
         public Criteria andStateIsNull() {
             addCriterion("state is null");
             return (Criteria) this;
@@ -772,6 +842,126 @@ public class TaskExample {
 
         public Criteria andDistrictNotBetween(String value1, String value2) {
             addCriterion("district not between", value1, value2, "district");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIsNull() {
+            addCriterion("lat is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIsNotNull() {
+            addCriterion("lat is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatEqualTo(Double value) {
+            addCriterion("lat =", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotEqualTo(Double value) {
+            addCriterion("lat <>", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThan(Double value) {
+            addCriterion("lat >", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatGreaterThanOrEqualTo(Double value) {
+            addCriterion("lat >=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThan(Double value) {
+            addCriterion("lat <", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatLessThanOrEqualTo(Double value) {
+            addCriterion("lat <=", value, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatIn(List<Double> values) {
+            addCriterion("lat in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotIn(List<Double> values) {
+            addCriterion("lat not in", values, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatBetween(Double value1, Double value2) {
+            addCriterion("lat between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLatNotBetween(Double value1, Double value2) {
+            addCriterion("lat not between", value1, value2, "lat");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngIsNull() {
+            addCriterion("lng is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngIsNotNull() {
+            addCriterion("lng is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngEqualTo(Double value) {
+            addCriterion("lng =", value, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngNotEqualTo(Double value) {
+            addCriterion("lng <>", value, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngGreaterThan(Double value) {
+            addCriterion("lng >", value, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngGreaterThanOrEqualTo(Double value) {
+            addCriterion("lng >=", value, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngLessThan(Double value) {
+            addCriterion("lng <", value, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngLessThanOrEqualTo(Double value) {
+            addCriterion("lng <=", value, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngIn(List<Double> values) {
+            addCriterion("lng in", values, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngNotIn(List<Double> values) {
+            addCriterion("lng not in", values, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngBetween(Double value1, Double value2) {
+            addCriterion("lng between", value1, value2, "lng");
+            return (Criteria) this;
+        }
+
+        public Criteria andLngNotBetween(Double value1, Double value2) {
+            addCriterion("lng not between", value1, value2, "lng");
             return (Criteria) this;
         }
     }

@@ -8,6 +8,12 @@ public class IndexController {
 
     @RequestMapping(value = "/index")
     public String index() {
-        return "redirect:/task/taskList";
+        //return "redirect:/task/taskList";
+        return "index";
+    }
+
+    @RequestMapping(value = "/chooseCoordinate")
+    public String chooseCoordinate() {
+        return "chooseCoordinate";
     }
 }

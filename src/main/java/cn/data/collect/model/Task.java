@@ -13,6 +13,8 @@ public class Task {
 
     private Date lastruntime;
 
+    private String cron;
+
     private String state;
 
     private String runip;
@@ -22,6 +24,16 @@ public class Task {
     private String city;
 
     private String district;
+
+    private Double lat;
+
+    private Double lng;
+
+    /**
+     * add
+     */
+    private Date createtimeStart;
+    private Date createtimeEnd;
 
     public Integer getTaskid() {
         return taskid;
@@ -63,6 +75,14 @@ public class Task {
         this.lastruntime = lastruntime;
     }
 
+    public String getCron() {
+        return cron;
+    }
+
+    public void setCron(String cron) {
+        this.cron = cron == null ? null : cron.trim();
+    }
+
     public String getState() {
         return state;
     }
@@ -101,5 +121,37 @@ public class Task {
 
     public void setDistrict(String district) {
         this.district = district == null ? null : district.trim();
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
+    public Date getCreatetimeStart() {
+        return createtimeStart;
+    }
+
+    public void setCreatetimeStart(Date createtimeStart) {
+        this.createtimeStart = createtimeStart;
+    }
+
+    public Date getCreatetimeEnd() {
+        return createtimeEnd;
+    }
+
+    public void setCreatetimeEnd(Date createtimeEnd) {
+        this.createtimeEnd = createtimeEnd;
     }
 }

@@ -4,7 +4,7 @@
     /*<![CDATA[*/
     ctxPath = /*[[@{/}]]*/ '';
     /*]]>*/
-    console.info(ctxPath);
+    console.log(ctxPath);
 </script>
 <head>
     <meta charset="utf-8">
@@ -26,7 +26,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">任务名称：</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="price_min" placeholder="" autocomplete="off" class="layui-input">
+                        <input type="text" name="taskname" placeholder="" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -42,21 +42,80 @@
                 </div>
                 <div class="layui-inline">
                     <input type="button" class="layui-btn" lay-submit lay-filter="query" value="查询" />
+
+                    <input type="button" class="layui-btn startup" value="启动" />
+                    <input type="button" class="layui-btn shutdown" value="停止" />
+                    <input type="button" class="layui-btn add" value="添加任务" />
                 </div>
             </div>
         </form>
     </div>
 </div>
 
+<table id="table" lay-filter="test"></table>
+
+<div id="addDiv" style="display: none;margin-top: 15px; margin-right: 15px">
+    <div class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务名称：</label>
+            <div class="layui-input-block">
+                <input type="text" name="taskname" class="layui-input" autocomplete="off" required lay-verify="required" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述：</label>
+            <div class="layui-input-block">
+                <textarea name="description" class="layui-textarea" autocomplete="off"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">Cron表达式：</label>
+            <div class="layui-input-block">
+                <input type="text" name="cron" class="layui-input" placeholder="*/5 * * * * *" autocomplete="off" required lay-verify="required" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">经度：</label>
+                <div class="layui-input-inline" style="width: 130px">
+                    <input type="text" id="lng" name="lng" autocomplete="off" class="layui-input" required readonly />
+                </div>
+                <label class="layui-form-label" style="width: 50px">纬度：</label>
+                <div class="layui-input-inline" style="width: 130px">
+                    <input type="text" id="lat" name="lat" autocomplete="off" class="layui-input" required readonly />
+                </div>
+                <div class="layui-input-inline">
+                    <input type="button" class="layui-btn chooseCoordinate" value="选择坐标" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态：</label>
+            <div class="layui-input-block">
+                <select name="state">
+                    <option value="R">立即运行</option>
+                    <option value="S">手动运行</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div style="float: right;padding-right: 10px">
+                <input type="button" class="layui-btn" lay-submit lay-filter="add" value="添加" />
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script th:src="@{/jquery/jquery-2.1.1.min.js}"></script>
 <script th:src="@{/layui/layui.js}"></script>
-<script>
-    var layer, form, laydate;
-    layui.use(['layer', 'form', 'laydate'], function () {
+<script th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:inline="none">
+    var layer, form, laydate, index_load, table, chooseMapIndex;
+    layui.use(['layer', 'form', 'laydate', 'table'], function () {
         layer = layui.layer,
             form = layui.form,
-            laydate = layui.laydate;
+            laydate = layui.laydate,
+            table = layui.table;
 
         laydate.render({
             elem: '#start',
@@ -66,13 +125,194 @@
             elem: '#end',
             type: 'datetime'
         });
+
+        table.render({
+            elem: '#table',
+            url: ctxPath+'task/list',
+            page: true,
+            height: 'full-120',
+            cols: [
+                [
+                    {checkbox: true},
+                    {field: 'taskid', title: '任务ID'},
+                    {field: 'taskname', title: '名称'},
+                    {field: 'cron', title: '运行频率'},
+                    {field: 'state', title: '运行状态', templet: '#sc_state'},
+                    {field: 'description', title: '描述'}
+                ]
+            ],
+            response: {
+                countName: 'total',
+                dataName: 'list'
+            },
+            id: 'table'
+        });
+
         form.on('submit(query)', function(data){
-            console.log(data.elem);
-            console.log(data.form);
             console.log(data.field);
-            layer.msg($("#queryForm").serialize());
+            var formField = $("#queryForm").serialize();
+            table.reload('table', {
+                where: {
+                    taskname: data.field.taskname,
+                    createtimeStart: data.field.start,
+                    createtimeEnd: data.field.end
+                }
+            });
             return false;
         });
+
+        form.on('submit(add)', function (data) {
+            $.ajax({
+                url: ctxPath + "task/add",
+                data: data.field,
+                type: "post",
+                beforeSend : function(){
+                    index_load = layer.load(1, {
+                        shade: [0.3,'#000']
+                    });
+                },
+                success : function(data){
+                    layer.close(index_load);
+                    console.log(data);
+                    if(data.success) {
+                        window.location.reload();
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(index_load);
+                    layer.msg(textStatus);
+                }
+            });
+        });
     });
+
+    $(document).ready(function () {
+        console.log("ready");
+        $(".add").click(function () {
+            layer.open({
+                title: '添加任务',
+                type: 1,
+                area: ['700px', '550px'],
+                content: $("#addDiv")
+            });
+        });
+
+        $(".startup").click(function () {
+            var checkStatus = table.checkStatus('table');
+            if(checkStatus.data.length == 0) {
+                layer.msg('没有选择数据');
+                return;
+            }
+            var ids = new Array();
+            $.each(checkStatus.data, function() {
+                ids.push(this.taskid);
+            });
+            $.ajax({
+                url: ctxPath + "task/startup",
+                data: {
+                    ids: ids.join(","),
+                    row: checkStatus.data
+                },
+                type: "post",
+                beforeSend : function(){
+                    index_load = layer.load(1, {
+                        shade: [0.3,'#000']
+                    });
+                },
+                success : function(data){
+                    layer.close(index_load);
+                    if(data.success) {
+                        window.location.reload()
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(index_load);
+                    layer.msg(textStatus);
+                }
+            });
+        });
+
+        $(".shutdown").click(function () {
+            var checkStatus = table.checkStatus('table');
+            if(checkStatus.data.length == 0) {
+                layer.msg('没有选择数据');
+                return;
+            }
+            var ids = new Array();
+            $.each(checkStatus.data, function() {
+                ids.push(this.taskid);
+            });
+            $.ajax({
+                url: ctxPath + "task/shutdown",
+                data: {
+                    ids: ids.join(",")
+                },
+                type: "post",
+                beforeSend : function(){
+                    index_load = layer.load(1, {
+                        shade: [0.3,'#000']
+                    });
+                },
+                success : function(data){
+                    layer.close(index_load);
+                    if(data.success) {
+                        window.location.reload()
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    layer.close(index_load);
+                    layer.msg(textStatus);
+                }
+            });
+        });
+
+        $(".chooseCoordinate").click(function () {
+            var width, height;
+            var url = ctxPath + "chooseCoordinate";
+            if(browserType() == 'IE') {
+                width = document.documentElement.clientWidth+'px';
+                height = document.documentElement.clientHeight+'px';
+            } else {
+                width = document.body.clientWidth+'px';
+                height = document.body.clientHeight+'px';
+            }
+            chooseMapIndex = layer.open({
+                title: '选择坐标',
+                type: 2,
+                area: [width, height],
+                offset: '1px',
+                maxmin: true,
+                content: url,
+                end: function () {
+                    if(lng != undefined && lat != undefined) {
+                        $('#lng').val(lng);
+                        $('#lat').val(lat);
+                    }
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+    var lng,lat;
+    function setPoint(_lng, _lat) {
+        lng = _lng;
+        lat = _lat
+    }
+</script>
+<script type="text/html" id="sc_state">
+
+    {{# if(d.state=='R'){ }}
+    正在运行
+    {{# } else{}}
+    未运行
+    {{# } }}
+
 </script>
 </html>

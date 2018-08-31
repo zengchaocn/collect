@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     name: test
-    url: jdbc:mysql://127.0.0.1:3306/collect
+    url: jdbc:mysql://127.0.0.1:3306/collect?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: root
+    password:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat
@@ -41,3 +41,4 @@ pagehelper:
 logging:
   level:
     root: info
+    cn.data.collect.dao: debug
